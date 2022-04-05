@@ -27,8 +27,14 @@
 
 Cypress.Commands.add('login', (usuario, senha) => {
     cy.get('#username').type(usuario)
-    cy.get('#password').type(senha, {log: false})
+    cy.get('#password').type(senha, { log: false })
     cy.get('.woocommerce-form > .button').click()
+});
+
+Cypress.Commands.add('login2', (usuario, senha) => {
+    cy.get('#username').type(usuario)
+    cy.get('#password').type(senha, { log: false })
+    cy.get('.woocommerce-button').click()
 });
 
 Cypress.Commands.add('addProdutos', (produto, quantidade, tamanho, cor) => {
@@ -40,5 +46,15 @@ Cypress.Commands.add('addProdutos', (produto, quantidade, tamanho, cor) => {
     cy.get('.input-text').clear().type(quantidade)
     cy.get('.single_add_to_cart_button').click()
     cy.visit('produtos')
+})
+
+Cypress.Commands.add('finalizaVenda', ()=> {
+    cy.get('#cart > .dropdown-toggle').click()
+    cy.get('#cart > .dropdown-menu > .widget_shopping_cart_content > .mini_cart_content > .mini_cart_inner > .mcart-border > .buttons > .checkout').click()
+    cy.get('.showlogin').click()
+    cy.login2('aluno_ebac@teste.com', 'teste@teste.com')
+    cy.get('#payment_method_cod').click()
+    cy.get('#terms').check({ force: true })
+    cy.get('#place_order').click({ force: true })
 })
 
